@@ -213,12 +213,17 @@ create procedure proc_test7()
  CREATE FUNCTION func_test1(_userid VARCHAR(10)) RETURNS INT  #3 반환타입 지정
  BEGIN
     DECLARE total INT;
-    SELECT SUM(`sale`) INTO total FROM `Sale` WHERE `uid`=_userid;
+    SELECT SUM(`sale`) INTO total FROM `Sales` WHERE `uid`=_userid;
     RETURN total;
  END $$
  DELIMITER ;
  
- SELECT func_test1(‘a101’);
+ 
+ drop function func_test1;
+ 
+ select * from sales;
+ 
+ SELECT func_test1('a102');
  
 DELIMITER $$
  CREATE FUNCTION func_test2(_sale INT) RETURNS DOUBLE
@@ -231,5 +236,13 @@ DELIMITER $$
        END IF;
  RETURN bonus;
  END $$
- DELIMITER 
+ DELIMITER ;
 
+
+select 
+	uid,
+    year,
+    month,
+    sale,
+    func_test2(sale) as `bouus`
+from `sales`;
